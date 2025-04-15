@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Caller;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @extends ServiceEntityRepository<Caller>
@@ -16,28 +18,22 @@ class CallerRepository extends ServiceEntityRepository
         parent::__construct($registry, Caller::class);
     }
 
-    //    /**
-    //     * @return Caller[] Returns an array of Caller objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('c.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function createNewCaller(string $name, string $phone, EntityManagerInterface $manager):void
+    {
+        $newCaller = (new Caller())
+        ->setName($name)
+        ->setPhone($phone)
+        ;
 
-    //    public function findOneBySomeField($value): ?Caller
-    //    {
-    //        return $this->createQueryBuilder('c')
-    //            ->andWhere('c.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $manager->persist($newCaller);
+        $manager->flush();
+
+
+    } 
+    public function fetchCaller( int $id ) : Caller 
+    {
+        $caller = $this->find($id);
+
+        return $caller;
+    } 
 }

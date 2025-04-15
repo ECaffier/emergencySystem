@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Operator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +17,19 @@ class OperatorRepository extends ServiceEntityRepository
         parent::__construct($registry, Operator::class);
     }
 
-    //    /**
-    //     * @return Operator[] Returns an array of Operator objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('o.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function createNewOperator(string $name, EntityManagerInterface $manager) : void
+    {
+        $newOperator = (new Operator())
+        ->setName($name);
 
-    //    public function findOneBySomeField($value): ?Operator
-    //    {
-    //        return $this->createQueryBuilder('o')
-    //            ->andWhere('o.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+        $manager->persist($newOperator);
+        $manager->flush();
+    }
+
+    public function fetchOperator( int $id) : Operator
+    {
+        $operator = $this->find($id);
+
+        return $operator;
+    }
 }

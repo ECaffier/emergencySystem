@@ -31,6 +31,10 @@ class Incident
     #[ORM\ManyToOne(inversedBy: 'incidents')]
     private ?Team $teamId = null;
 
+    #[ORM\ManyToOne(inversedBy: 'incidents')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Caller $callerId = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +108,18 @@ class Incident
     public function setTeamId(?Team $teamId): static
     {
         $this->teamId = $teamId;
+
+        return $this;
+    }
+
+    public function getCallerId(): ?Caller
+    {
+        return $this->callerId;
+    }
+
+    public function setCallerId(?Caller $callerId): static
+    {
+        $this->callerId = $callerId;
 
         return $this;
     }

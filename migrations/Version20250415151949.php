@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250415134542 extends AbstractMigration
+final class Version20250415151949 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -24,7 +24,7 @@ final class Version20250415134542 extends AbstractMigration
             CREATE TABLE caller (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, phone VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
-            CREATE TABLE incident (id INT AUTO_INCREMENT NOT NULL, operator_id_id INT DEFAULT NULL, team_id_id INT DEFAULT NULL, localisation VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, reported_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_3D03A11A251935C (operator_id_id), INDEX IDX_3D03A11AB842D717 (team_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
+            CREATE TABLE incident (id INT AUTO_INCREMENT NOT NULL, operator_id_id INT DEFAULT NULL, team_id_id INT DEFAULT NULL, caller_id_id INT NOT NULL, localisation VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, reported_at DATETIME NOT NULL COMMENT '(DC2Type:datetime_immutable)', INDEX IDX_3D03A11A251935C (operator_id_id), INDEX IDX_3D03A11AB842D717 (team_id_id), INDEX IDX_3D03A11A638D1B94 (caller_id_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
         $this->addSql(<<<'SQL'
             CREATE TABLE operator (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
@@ -41,6 +41,9 @@ final class Version20250415134542 extends AbstractMigration
         $this->addSql(<<<'SQL'
             ALTER TABLE incident ADD CONSTRAINT FK_3D03A11AB842D717 FOREIGN KEY (team_id_id) REFERENCES team (id)
         SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE incident ADD CONSTRAINT FK_3D03A11A638D1B94 FOREIGN KEY (caller_id_id) REFERENCES caller (id)
+        SQL);
     }
 
     public function down(Schema $schema): void
@@ -51,6 +54,9 @@ final class Version20250415134542 extends AbstractMigration
         SQL);
         $this->addSql(<<<'SQL'
             ALTER TABLE incident DROP FOREIGN KEY FK_3D03A11AB842D717
+        SQL);
+        $this->addSql(<<<'SQL'
+            ALTER TABLE incident DROP FOREIGN KEY FK_3D03A11A638D1B94
         SQL);
         $this->addSql(<<<'SQL'
             DROP TABLE caller

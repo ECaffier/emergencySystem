@@ -6,14 +6,9 @@ use App\Entity\Caller;
 use App\Entity\Incident;
 use App\Entity\Operator;
 use App\Entity\Team;
-use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\Messenger\Middleware\TraceableMiddleware;
-use Symfony\Component\Validator\Constraints\Date;
-
-use function Symfony\Component\Clock\now;
 
 /**
  * @extends ServiceEntityRepository<Incident>

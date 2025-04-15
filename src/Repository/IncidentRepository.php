@@ -2,9 +2,18 @@
 
 namespace App\Repository;
 
+use App\Entity\Caller;
 use App\Entity\Incident;
+use App\Entity\Operator;
+use App\Entity\Team;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Messenger\Middleware\TraceableMiddleware;
+use Symfony\Component\Validator\Constraints\Date;
+
+use function Symfony\Component\Clock\now;
 
 /**
  * @extends ServiceEntityRepository<Incident>
@@ -16,28 +25,40 @@ class IncidentRepository extends ServiceEntityRepository
         parent::__construct($registry, Incident::class);
     }
 
-//    /**
-//     * @return Incident[] Returns an array of Incident objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('i.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function reportIncident(
+        string $localisation, 
+        string $description,
+        Caller $callerId,
+        Operator $operatorid,
+        Team $teamId,
+        EntityManagerInterface $manager
+    ) : void
+    {
+        $newIncident = (new Incident)
+        ->setLocalisation($localisation)
+        ->setDescription($description)
+        ->setStatus("en cours")
+        ->setReportedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))
+        ->setCallerId($callerId)
+        ->setOperatorId($operatorid)
+        ->setTeamId($teamId)
+        ;
 
-//    public function findOneBySomeField($value): ?Incident
-//    {
-//        return $this->createQueryBuilder('i')
-//            ->andWhere('i.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+        $manager->persist($newIncident);
+        $manager->flush();
+    }
+
+    public function fetchIncident(int $id): Incident
+    {
+        $incident = $this->find($id);
+
+        return $incident;
+    }
+
+    public function editStatusIncident(int $id): void
+    {
+        $incident = $this->fetchIncident($id);
+        $incident->setStatus("terminé");
+    }
+
 }

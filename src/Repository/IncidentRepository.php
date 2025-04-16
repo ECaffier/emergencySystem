@@ -25,9 +25,11 @@ class IncidentRepository extends ServiceEntityRepository
     public function reportIncident(
         string $localisation, 
         string $description,
-        Caller $callerId,
+        int $callerId,
     ) : void
     {
+        $callerId = $this->manager->getRepository(Caller::class)->find($callerId);
+
         $newIncident = (new Incident)
         ->setLocalisation($localisation)
         ->setDescription($description)

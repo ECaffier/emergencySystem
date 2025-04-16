@@ -18,7 +18,7 @@ class IncidentService
     public function newIncident(
         string $localisation, 
         string $description,
-        Caller $caller,
+        int $caller,
     ): string
     {
         try {

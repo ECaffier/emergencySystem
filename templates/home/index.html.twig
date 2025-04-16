@@ -8,6 +8,56 @@
         <p>Un système complet pour gérer les situations d'urgence</p>
     </div>
 
+    <div class="incident-form-container">
+        <h2>Signaler un incident</h2>
+        <form action="{{ path('app_incident') }}" method="POST" class="form-container">
+            <div class="form-group">
+                <label for="caller">ID de l'Opérateur</label>
+                <select id="caller" name="caller" required>
+                    <option value="">Sélectionnez un ID d'opérateur</option>
+                    {% for caller in callers %}
+                        <option value="{{ caller.id }}">Opérateur #{{ caller.id }} - {{ caller.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="localisation">Localisation</label>
+                <input type="text" id="localisation" name="localisation" required placeholder="Adresse ou coordonnées">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description de l'incident</label>
+                <textarea id="description" name="description" rows="4" required placeholder="Décrivez la situation d'urgence"></textarea>
+            </div>
+
+            <button type="submit" class="btn">Signaler l'incident</button>
+        </form>
+    </div>
+
+    <div class="incidents-container">
+        <h2>Incidents en cours</h2>
+        {% if incidents|length > 0 %}
+            <div class="incidents-list">
+                {% for incident in incidents %}
+                    <div class="incident-card">
+                        <div class="incident-header">
+                            <span class="incident-id">Incident #{{ incident.id }}</span>
+                            <span class="incident-time">{{ incident.reportedAt|date('d/m/Y H:i') }}</span>
+                        </div>
+                        <div class="incident-content">
+                            <p><strong>Opérateur :</strong> {{ incident.callerId.name }}</p>
+                            <p><strong>Localisation :</strong> {{ incident.localisation }}</p>
+                            <p><strong>Description :</strong> {{ incident.description }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-incidents">Aucun incident en cours</p>
+        {% endif %}
+    </div>
+
     <div class="features">
         <div class="feature-card">
             <h2>Rapports en Temps Réel</h2>

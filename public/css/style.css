@@ -170,6 +170,125 @@ footer {
     width: 100%;
 }
 
+/* Styles pour le formulaire d'incident */
+.incident-form-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.incident-form-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 500;
+    color: var(--primary-color);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--secondary-color);
+    outline: none;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Styles pour la liste des incidents */
+.incidents-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.incidents-container h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.incidents-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.incident-card {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    border-left: 4px solid var(--secondary-color);
+}
+
+.incident-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.incident-id {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.incident-time {
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.incident-content p {
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.incident-content strong {
+    color: var(--primary-color);
+}
+
+.no-incidents {
+    text-align: center;
+    color: #6c757d;
+    font-style: italic;
+    padding: 2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .navbar {
@@ -201,4 +320,20 @@ footer {
         grid-template-columns: 1fr;
         padding: 1rem;
     }
-} 
+
+    .incident-form-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .incidents-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .incident-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+    }
+}

@@ -18,6 +18,7 @@ final class IncidentController extends AbstractController
     #[Route('/incident', name: 'app_incident')]
     public function incident(Request $request): Response
     {
+
         $callerId = $request->get('caller');
         $localisation = $request->get('localisation');
         $description = $request->get('description');

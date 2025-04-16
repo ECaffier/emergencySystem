@@ -15,18 +15,17 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class IncidentRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $manager;
+    public function __construct(ManagerRegistry $registry, EntityManagerInterface $manager)
     {
         parent::__construct($registry, Incident::class);
+        $this->manager = $manager;
     }
 
     public function reportIncident(
         string $localisation, 
         string $description,
         Caller $callerId,
-        Operator $operatorid,
-        Team $teamId,
-        EntityManagerInterface $manager
     ) : void
     {
         $newIncident = (new Incident)
@@ -35,12 +34,10 @@ class IncidentRepository extends ServiceEntityRepository
         ->setStatus("en cours")
         ->setReportedAt(new \DateTimeImmutable('now', new \DateTimeZone('Europe/Paris')))
         ->setCallerId($callerId)
-        ->setOperatorId($operatorid)
-        ->setTeamId($teamId)
         ;
 
-        $manager->persist($newIncident);
-        $manager->flush();
+        $this->manager->persist($newIncident);
+        $this->manager->flush();
     }
 
     public function fetchIncident(int $id): Incident

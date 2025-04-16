@@ -27,9 +27,11 @@ final class IncidentController extends AbstractController
             $description,
             $callerId,
         );
-        
+
+
         return $this->render('incident/index.html.twig', [
             'controller_name' => 'IncidentController',
+            'newincident' => $newIncident
         ]);
     }
 }
